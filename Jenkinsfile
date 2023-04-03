@@ -1,67 +1,49 @@
-pipeline{
-    agent {label 'docker'} 
-    
-    parameters {
-        string(name: 'EmailRecipients', defaultValue: 'sandeep.darsan@qburst.com', description: 'Email Recipients for sharing the test report')
-    }
+pipeline {
 
-    environment {
-        version = ''
-    }
+agent any
 
-    stages{
-        stage('Prepare') {
-            steps {
-                script {
-                    version = prepare()
-                    createBuild(version)
-                }
-            }
-        }
-        stage('Maven Build') {
-            agent {
-                    dockerfile {
-                        reuseNode true
-                        additionalBuildArgs '--build-arg IMAGE_SRC=artifactory.zii.aero/dockerhub-docker-prod-remote/maven:3.8.6-jdk-8 --shm-size 3g'
-                        args '-v /tmp:/tmp --shm-size 3g'
-                } 
-            }
-            environment {
-                MAVEN_HOME = '/usr/share/maven'
-            }
-            steps {
-                sh 'which firefox'
-                sh 'firefox -v'
-                mavenBuild(version)
-                publishBuild()
-            }
 
-        }
-        stage('Release') {
-            when {
-                beforeAgent true
-                expression { return !pipelineConfig.libraries.semverGit.skipRelease }
-            }
-            steps {
-                release()
-                // Promotes maven packages from the dev/snapshot repo to prod
-                promote()
-            }
-        }
-    }
-    
-    post {
-        always {
-            emailext mimeType: 'text/html',
-                body: '${FILE, path="'+"${WORKSPACE}"+'/target/html-email-report.html"}',
-                subject: currentBuild.currentResult + " : " + env.JOB_NAME + " : " + env.BUILD_NUMBER,
-                to: "${params.EmailRecipients}",
-                recipientProviders: [[$class: 'RequesterRecipientProvider']],
-                attachmentsPattern: '**/extent-report.html',
-                attachLog: true,
-                compressLog: true
-            
-            cleanWs(deleteDirs: true)
-            }
-        }
+parameters {
+
+
+choice(name: 'TEST_SUITE', choices:['integration_test.xml'], description: 'Test Suite to be executed')
+string(name: 'TargetURL', defaultValue: 'https://google.com', description: 'Target base url for test execution')
+
+}
+
+stages {
+stage('run integration test') {
+steps {
+
+sh "mvn test -Dtestng.suitexml=${params.TEST_SUITE} -Dtest.url.base=${params.TargetURL}"
+}
+}
+
+}
+
+post{
+
+always {
+sh '''response=$(curl -X POST \\
+https://accounts.accesscontrol.windows.net/986f6ef3-b794-46b5-9afc-473c0d04f649/tokens/OAuth/2/ \\
+-H \'Content-Type: multipart/form-data\' \\
+-F \'grant_type=client_credentials\' \\
+-F \'client_id=87d9a40f-ec7e-4105-a127-8e10344328d3@986f6ef3-b794-46b5-9afc-473c0d04f649\' \\
+-F \'client_secret=2hzgQ2WOh5laLXI+420wCvujJEOgRZPOmbL5jCER2ik=\' \\
+-F \'resource=00000003-0000-0ff1-ce00-000000000000/qburst455.sharepoint.com@986f6ef3-b794-46b5-9afc-473c0d04f649\')
+
+access_token=$(echo $response | jq -r \'.access_token\')
+echo $access_token
+
+curl --location "https://qburst455.sharepoint.com/sites/DemoSiteForJenkins/_api/Web/GetFolderByServerRelativeUrl(\'/sites/DemoSiteForJenkins/Shared%20Documents/Reports\')/files/add(url=\'extent-report.html\',overwrite=true)" \\
+--header "Authorization: Bearer $access_token" \\
+--header "Accept: application/json;odata=verbose" \\
+--header "Content-Type: application/octet-stream" \\
+--data-binary "@${WORKSPACE}/target/extent-report.html"
+
+'''
+
+}
+}
+
 }
