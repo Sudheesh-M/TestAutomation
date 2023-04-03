@@ -1,0 +1,22 @@
+[INFO ] 2023-04-03 14:22:21.184 [main] TestListner - Starting execution of Suite: Automation Core Framework - Integration Test Suite
+[WARN ] 2023-04-03 14:22:21.188 [main] Config - Default test configuration initialization. TestNG suite xml parameters will override this configuration
+[INFO ] 2023-04-03 14:22:21.191 [main] Config - testconfig.properties found in test resources. Initializing test config parameters as System Properties
+[WARN ] 2023-04-03 14:22:21.217 [main] Config - Default test configuration initialization. TestNG suite xml parameters will override this configuration
+[INFO ] 2023-04-03 14:22:21.218 [main] Config - testconfig.properties found in test resources. Initializing test config parameters as System Properties
+[INFO ] 2023-04-03 14:22:21.228 [TestNG-tests-1] TestListner - Starting execution of Test Set: Chrome Browser Test
+[INFO ] 2023-04-03 14:22:21.228 [TestNG-tests-2] TestListner - Starting execution of Test Set: Firefox Browser Test
+[INFO ] 2023-04-03 14:22:21.269 [TestNG-tests-1] ChromeBrowserDriver - Opening chrome browser
+[INFO ] 2023-04-03 14:22:21.269 [TestNG-tests-2] FirefoxBrowserDriver - Opening firefox browser
+[INFO ] 2023-04-03 14:22:24.558 [TestNG-tests-1] TestListner - Starting execution of Test: vefifyBrowser
+[INFO ] 2023-04-03 14:22:25.587 [TestNG-tests-1] ParentDriver - Navigate to application url : https://google.com
+[DEBUG] 2023-04-03 14:22:27.647 [TestNG-tests-1] ExtentReport - Navigate to the application url: https://google.com
+[DEBUG] 2023-04-03 14:22:27.694 [TestNG-tests-1] ExtentReport - Validation Passed - Verify whether the browser window title is not an empty string
+[INFO ] 2023-04-03 14:22:28.032 [TestNG-tests-1] TestListner - End of Test: vefifyBrowser : Passed
+[INFO ] 2023-04-03 14:22:29.796 [TestNG-tests-2] TestListner - Starting execution of Test: vefifyBrowser
+[INFO ] 2023-04-03 14:22:29.804 [TestNG-tests-2] ParentDriver - Navigate to application url : https://google.com
+[INFO ] 2023-04-03 14:22:30.068 [TestNG-tests-1] TestListner - End of Test Set: Chrome Browser Test
+[DEBUG] 2023-04-03 14:22:31.953 [TestNG-tests-2] ExtentReport - Navigate to the application url: https://google.com
+[DEBUG] 2023-04-03 14:22:31.976 [TestNG-tests-2] ExtentReport - Validation Passed - Verify whether the browser window title is not an empty string
+[INFO ] 2023-04-03 14:22:32.104 [TestNG-tests-2] TestListner - End of Test: vefifyBrowser : Passed
+[INFO ] 2023-04-03 14:22:34.264 [TestNG-tests-2] TestListner - End of Test Set: Firefox Browser Test
+[INFO ] 2023-04-03 14:22:34.311 [main] TestListner - End of Suite: Automation Core Framework - Integration Test Suite
