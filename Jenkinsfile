@@ -35,11 +35,11 @@ https://accounts.accesscontrol.windows.net/986f6ef3-b794-46b5-9afc-473c0d04f649/
 access_token=$(echo $response | jq -r \'.access_token\')
 echo $access_token
 
-curl --location "https://qburst455.sharepoint.com/sites/DemoSiteForJenkins/_api/Web/GetFolderByServerRelativeUrl(\'/sites/DemoSiteForJenkins/Shared%20Documents/Reports\')/files/add(url=\'extent-report.html\',overwrite=true)" \\
+curl --location "https://qburst455.sharepoint.com/sites/DemoSiteForJenkins/_api/Web/GetFolderByServerRelativeUrl(\'/sites/DemoSiteForJenkins/Shared%20Documents/Reports\')/files/add(url=\'SampleHtml.zip\',overwrite=true)" \\
 --header "Authorization: Bearer $access_token" \\
 --header "Accept: application/json;odata=verbose" \\
 --header "Content-Type: application/octet-stream" \\
---data-binary "@${WORKSPACE}/target/extent-report.html"
+--data-binary "@${WORKSPACE}/target/SampleHtml.zip"
 
 '''
 
