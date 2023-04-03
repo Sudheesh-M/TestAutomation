@@ -1,0 +1,3 @@
+com\qburst\testing\automationcore\testng\BrowserTest.class
+com\qburst\testing\automationcore\pagemodels\web\page\objects\WebPage.class
+com\qburst\testing\automationcore\pagemodels\web\page\BasePage.class
