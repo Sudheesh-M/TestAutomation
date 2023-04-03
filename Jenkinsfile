@@ -39,7 +39,7 @@ curl --location "https://qburst455.sharepoint.com/sites/DemoSiteForJenkins/_api/
 --header "Authorization: Bearer $access_token" \\
 --header "Accept: application/json;odata=verbose" \\
 --header "Content-Type: application/octet-stream" \\
---data-binary "@${WORKSPACE}/target/SampleHtml.zip"
+--data-binary "@${WORKSPACE}/target/surefire-reports/SampleHtml.zip"
 
 '''
 
